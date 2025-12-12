@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Header } from './header/header';
+import { Header } from './components/header/header';
 import { RouterModule } from '@angular/router';
 
 

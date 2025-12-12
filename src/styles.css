@@ -1,3 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
 
+body {
+    /* Estilos generales */
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; /* Asegura que la cuadrícula empiece desde la esquina */
+    
+    /* 1. Fondo base blanco */
+    background-color: #ffffff; 
+    
+    /* 2. Creación del efecto de cuadrícula con gradientes CSS */
+    background-image: 
+       /* PRIMER GRADIENTE: LÍNEAS HORIZONTALES (Capa Superior) */
+        repeating-linear-gradient(
+            to bottom,  
+            #e6e6e6 0,  
+            #e6e6e6 1px, 
+            transparent 1px,
+            transparent 20px
+        ),
+        /* SEGUNDO GRADIENTE: LÍNEAS VERTICALES (Capa Inferior) */
+        repeating-linear-gradient(
+            to right,   
+            #e6e6e6 0,
+            #e6e6e6 1px,
+            #ffffff 1px, 
+            #ffffff 20px
+        );
+}
+
 @import "tailwindcss";

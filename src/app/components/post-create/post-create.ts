@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, inject, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { PostService } from '../../services/post.service';
 import { FormsModule } from '@angular/forms';
 import { PostDTO } from '../../models/post';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-post-create',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './post-create.html',
 })
 export class PostCreate {
@@ -47,6 +48,8 @@ export class PostCreate {
         // Limpiar formulario y variables
         this.newPostTitle = '';
         this.newPostContent = '';
+
+        this.cdr.detectChanges();
 
         setTimeout(() => {
         this.successMessage = null;

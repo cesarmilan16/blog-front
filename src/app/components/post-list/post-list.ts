@@ -5,11 +5,10 @@ import { CommonModule } from '@angular/common';
 import { PostDTO } from '../../models/post';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { PostDetail } from '../post-detail/post-detail';
 
 @Component({
   selector: 'app-post-list',
-  imports: [CommonModule, FormsModule, RouterModule, PostDetail], // Necesitas importar CommonModule para usar el | async o @for
+  imports: [CommonModule, FormsModule, RouterModule], // Necesitas importar CommonModule para usar el | async o @for
   templateUrl: './post-list.html',
 })
 export class Postlist implements OnInit {

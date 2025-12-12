@@ -1,4 +1,21 @@
-<div class="post-detail-container">
-    <h2>Detalle del Post</h2>
-    <p>El ID del post es: {{ postId }}</p>
+<div class="post-detail-container max-w-3xl mx-auto mt-10 p-8 bg-white shadow-xl rounded-lg">
+    
+    @if (isLoading) {
+        <div class="text-center text-blue-600 font-medium">Cargando post...</div>
+    }
+
+    @if (post) {
+        <h2 class="text-4xl font-extrabold text-gray-900 mb-4">{{ post.title }}</h2>
+        
+        <div class="border-t border-gray-200 pt-6">
+            <p class="text-gray-700 whitespace-pre-line">{{ post.content }}</p>
+        </div>
+        
+    } @else if (!isLoading) {
+        <div class="text-center text-red-500 font-medium">No se pudo cargar el post. ID: {{ postId }}</div>
+    }
+
+    <button type="button" routerLink="/" class="mt-8 text-blue-600 hover:underline cursor-pointer">
+        ← Volver al listado de posts
+    </button>
 </div>

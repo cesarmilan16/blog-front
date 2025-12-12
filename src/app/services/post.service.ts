@@ -7,6 +7,7 @@ import { PostDTO } from '../models/post';
   providedIn: 'root',
 })
 export class PostService {
+
   private apiUrl = 'http://localhost:8081/api/posts';
 
   private refreshNeeded$ = new Subject<void>();
@@ -16,6 +17,10 @@ export class PostService {
 
   getPosts(): Observable<PostDTO[]> {
     return this.http.get<PostDTO[]>(this.apiUrl);
+  }
+
+  getPostById(id: string) {
+    return this.http.get<PostDTO>(`${this.apiUrl}/${id}`);
   }
 
   createPost(post: PostDTO): Observable<PostDTO> {

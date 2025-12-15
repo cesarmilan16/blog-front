@@ -1,4 +1,4 @@
-<div class="post-detail-container max-w-3xl mx-auto mt-10 p-8 bg-white shadow-xl rounded-lg">
+<div class="max-w-3xl mx-auto mt-10 p-8 bg-white shadow-xl rounded-sm">
     
     @if (isLoading) {
         <div class="text-center text-blue-600 font-medium">Cargando post...</div>
@@ -15,7 +15,7 @@
         <div class="text-center text-red-500 font-medium">No se pudo cargar el post. ID: {{ postId }}</div>
     }
 
-    <button type="button" routerLink="/" class="mt-8 text-blue-600 hover:underline cursor-pointer">
+    <button type="button" routerLink="/" class="mt-8 hover:bg-gray-600 cursor-pointer px-3 py-2 rounded-sm hover:text-white transition duration-150">
         ← Volver al listado de posts
     </button>
 </div>

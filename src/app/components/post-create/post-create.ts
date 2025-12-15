@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { PostService } from '../../services/post.service';
 import { FormsModule } from '@angular/forms';
 import { PostDTO } from '../../models/post';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-post-create',
@@ -15,6 +15,7 @@ export class PostCreate {
   private service = inject(PostService);
   // ⬅️ INYECTAR ChangeDetectorRef
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   public newPostTitle: string = '';
   public newPostContent: string = '';
@@ -42,6 +43,8 @@ export class PostCreate {
     // Llamada al servicio
     this.service.createPost(newPost).subscribe({
       next: (response) => {
+        const postId = response.id; // Obtener el ID del post creado
+
         this.successMessage = `Post "${response.title}" creado con éxito.`;
         this.isLoading = false;
         
@@ -55,6 +58,10 @@ export class PostCreate {
         this.successMessage = null;
         this.cdr.detectChanges();
         }, 3000);
+
+        if (postId) {
+            this.router.navigate(['/post', postId]);
+        }
 
       },
       error: (e) => {

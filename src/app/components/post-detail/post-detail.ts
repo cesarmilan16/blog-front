@@ -31,6 +31,21 @@ export class PostDetail implements OnInit {
       }
     });
   }
+
+  getTagsArray(tagsString: string | string[]): string[] {
+    if (!tagsString) return [];
+
+    // Si ya es un array, devuélvelo. Si no, divídelo y limpia.
+    if (Array.isArray(tagsString)) {
+      return tagsString.filter(tag => tag.trim() !== '');
+    }
+
+    return tagsString
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(tag => tag.length > 0);
+  }
+
   // Función para obtener y manejar el post
   loadPost(id: string): void {
     this.isLoading = true;
@@ -49,6 +64,7 @@ export class PostDetail implements OnInit {
         this.cdr.detectChanges();
         // Manejo de errores
       }
+
     });
   }
 }

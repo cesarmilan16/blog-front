@@ -36,6 +36,8 @@ export class PostCreate {
     const newPost: PostDTO = {
       title: this.newPostTitle,
       content: this.newPostContent,
+      category: 'Generico',
+      tags: []
     };
     
     this.isLoading = true;

@@ -36,6 +36,20 @@ export class Postlist implements OnInit {
     this.postList$ = this.service.getPosts();
   }
 
+  getTagsArray(tagsString: string | string[]): string[] {
+    if (!tagsString) return [];
+
+    // Si ya es un array, devuélvelo. Si no, divídelo y limpia.
+    if (Array.isArray(tagsString)) {
+      return tagsString.filter(tag => tag.trim() !== '');
+    }
+
+    return tagsString
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(tag => tag.length > 0);
+  }
+
   // -------------------------
   //  ELIMINAR
   // -------------------------

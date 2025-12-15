@@ -38,19 +38,31 @@
         class="bg-white shadow-xl rounded-sm p-6 mb-6 hover:shadow-xl transition duration-300 flex flex-col justify-between">
         <a [routerLink]="['/post', post.id]" class="post-link-card">
             <!-- TÍTULO -->
-            <h2 class="text-2xl font-semibold text-gray-800 mb-2 hover:text-blue-600 hover:underline">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-3 hover:text-blue-600 hover:underline">
                 {{ post.title }}
             </h2>
         </a>
+
+        <p class="w-fit text-sm font-light text-gray-900 bg-gray-200 px-2 mb-2 rounded-xl font-sans">
+            {{ post.category }}
+        </p>
 
         <p class="text-base text-gray-700 mb-4 line-clamp-4">
             {{ post.content }}
         </p>
 
+        <div class="flex flex-wrap gap-2 mb-4">
+            @for (tag of getTagsArray(post.tags); track $index) {
+            <p class="w-fit text-xs font-medium text-blue-800 bg-blue-100 px-3 py-0.5 rounded-xl font-sans">
+                {{ tag }}
+            </p>
+            }
+        </div>
+
         <div class="flex justify-start space-x-4 mt-auto">
 
             <button type="button" [routerLink]="['/post/edit', post.id]"
-                class="flex items-center text-sm font-medium text-orange-500 hover:text-white border border-orange-500 rounded-md px-3 py-1 transition duration-150 hover:bg-orange-500 cursor-pointer">
+                class="flex items-center text-sm font-medium text-orange-500 hover:text-white border border-orange-500 rounded-sm px-3 py-1 transition duration-150 hover:bg-orange-500 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-4 h-4 mr-1">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -60,7 +72,7 @@
             </button>
 
             <button type="button" (click)="promptDelete(post.id!)"
-                class="flex items-center text-sm font-medium text-red-600 hover:text-white border border-red-600 rounded-md px-3 py-1 transition duration-150 hover:bg-red-600 cursor-pointer">
+                class="flex items-center text-sm font-medium text-red-600 hover:text-white border border-red-600 rounded-sm px-3 py-1 transition duration-150 hover:bg-red-600 cursor-pointer">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-4 h-4 mr-1">
@@ -77,9 +89,5 @@
     }
 </div>
 
-<app-confirmation-dialog 
-    [isVisible]="isModalVisible"
-    [message]="confirmationMessage"
-    (confirmed)="confirmDelete()"
-    (canceled)="cancelDelete()"
-></app-confirmation-dialog>
+<app-confirmation-dialog [isVisible]="isModalVisible" [message]="confirmationMessage" (confirmed)="confirmDelete()"
+    (canceled)="cancelDelete()"></app-confirmation-dialog>

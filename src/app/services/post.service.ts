@@ -12,21 +12,21 @@ export class PostService {
 
   private refreshNeeded$ = new Subject<void>();
   get refresh$() { return this.refreshNeeded$.asObservable(); }
-  
+
   constructor(private http: HttpClient) { }
 
   getPosts(term?: string): Observable<PostDTO[]> {
-    let params = new HttpParams(); // Inicializar parámetros
+    let params = new HttpParams(); // Inicializar parámetros
 
-    // 3. CONSTRUIR los parámetros
-    if (term && term.trim() !== '') {
-      // Si hay un término, añade '?term=valor' a la petición
-      params = params.set('term', term.trim());
-    }
-    
-    // Pasar el objeto params en la petición GET
-    return this.http.get<PostDTO[]>(this.apiUrl, { params: params });
-  }
+    // 3. CONSTRUIR los parámetros
+    if (term && term.trim() !== '') {
+      // Si hay un término, añade '?term=valor' a la petición
+      params = params.set('term', term.trim());
+    }
+
+    // Pasar el objeto params en la petición GET
+    return this.http.get<PostDTO[]>(this.apiUrl, { params: params });
+  }
 
   getPostById(id: string) {
     return this.http.get<PostDTO>(`${this.apiUrl}/${id}`);

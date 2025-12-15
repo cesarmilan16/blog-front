@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { debounceTime, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { PostService } from '../../services/post.service';
 import { CommonModule } from '@angular/common';
 import { PostDTO } from '../../models/post';
@@ -14,22 +14,38 @@ import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
 })
 export class Postlist implements OnInit {
 
-  // 1. INYECCIÓN MODERNA
+  // INYECCIÓN MODERNA
   private service = inject(PostService);
   private cdr = inject(ChangeDetectorRef);
 
-  // 2. DECLARACIÓN DE LA PROPIEDAD
+  // NUEVAS PROPIEDADES PARA LA BÚSQUEDA
+  public searchTerm: string = ''; // Enlazado con el input HTML
+  private searchSubject = new Subject<string>(); // Canal de comunicación
+
+  // DECLARACIÓN DE LA PROPIEDAD
   public postList$!: Observable<PostDTO[]>;
 
   ngOnInit(): void {
+// CONFIGURACIÓN DEL STREAM (FLUJO DE DATOS)
+    this.postList$ = this.searchSubject.pipe(
+      startWith(''),        // A. Carga inicial (envía cadena vacía)
+      debounceTime(300),    // B. Espera 300ms a que dejes de escribir
+      switchMap((term) => { // C. Llama al servicio (cancela peticiones anteriores si escribes rápido)
+        return this.service.getPosts(term);
+      })
+    );
 
-    this.loadPosts(); // primera carga
-
-    // cuando se cree un post → recargar lista
+    // REFRESCAR LISTA: Cuando se crea/edita un post
     this.service.refresh$.subscribe(() => {
-      this.loadPosts();
-      this.cdr.detectChanges();
+      // Volvemos a emitir el término actual para recargar la lista manteniendo el filtro
+      this.searchSubject.next(this.searchTerm);
     });
+  }
+
+  // MÉTODO QUE SE LLAMA DESDE EL HTML AL ESCRIBIR
+  onSearch(term: string): void {
+    this.searchTerm = term;
+    this.searchSubject.next(term);
   }
 
   private loadPosts() {

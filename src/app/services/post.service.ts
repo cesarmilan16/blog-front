@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { PostDTO } from '../models/post';
@@ -15,9 +15,18 @@ export class PostService {
   
   constructor(private http: HttpClient) { }
 
-  getPosts(): Observable<PostDTO[]> {
-    return this.http.get<PostDTO[]>(this.apiUrl);
-  }
+  getPosts(term?: string): Observable<PostDTO[]> {
+    let params = new HttpParams(); // Inicializar parámetros
+
+    // 3. CONSTRUIR los parámetros
+    if (term && term.trim() !== '') {
+      // Si hay un término, añade '?term=valor' a la petición
+      params = params.set('term', term.trim());
+    }
+    
+    // Pasar el objeto params en la petición GET
+    return this.http.get<PostDTO[]>(this.apiUrl, { params: params });
+  }
 
   getPostById(id: string) {
     return this.http.get<PostDTO>(`${this.apiUrl}/${id}`);

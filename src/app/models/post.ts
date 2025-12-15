@@ -3,5 +3,5 @@ export interface PostDTO {
     title: string;
     content: string;
     category: string;
-    tags: string[];
+    tags: string;
 }

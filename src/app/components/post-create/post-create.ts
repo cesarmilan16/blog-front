@@ -19,6 +19,8 @@ export class PostCreate {
 
   public newPostTitle: string = '';
   public newPostContent: string = '';
+  public newPostCategory: string = '';
+  public newPostTags: string = '';
 
   public isLoading: boolean = false; 
   public successMessage: string | null = null;
@@ -36,8 +38,8 @@ export class PostCreate {
     const newPost: PostDTO = {
       title: this.newPostTitle,
       content: this.newPostContent,
-      category: 'Generico',
-      tags: []
+      category: this.newPostCategory || 'General',
+      tags: this.newPostTags || '',
     };
     
     this.isLoading = true;
@@ -53,6 +55,8 @@ export class PostCreate {
         // Limpiar formulario y variables
         this.newPostTitle = '';
         this.newPostContent = '';
+        this.newPostCategory = '';
+        this.newPostTags = '';
 
         this.cdr.detectChanges();
 
